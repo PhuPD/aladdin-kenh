@@ -22,6 +22,9 @@
 html,body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 "Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif}
 button,input,select{font:inherit;color:inherit}
 .wrap{max-width:1280px;margin:0 auto;padding:16px}
+a.home{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--brand);font-weight:600;font-size:13px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 12px 5px 10px;margin-bottom:8px}
+a.home:hover{border-color:var(--brand);background:var(--brand-soft)}
+h1 a{color:inherit;text-decoration:none}
 header.top{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;justify-content:space-between;margin-bottom:12px}
 h1{font-size:22px;margin:0;letter-spacing:-.01em}
 .sub{color:var(--ink2);font-size:13px}
@@ -128,7 +131,8 @@ footer{color:var(--ink3);font-size:12px;padding:8px 0 30px}
 <div class="wrap">
   <header class="top">
     <div>
-      <h1>Kênh Ads Aladdin · Phễu mua theo chương trình</h1>
+      <a class="home" id="home" href="https://phupd.github.io/aladdin-kenh/" title="Về trang chủ: Tổng quan, 14 ngày gần nhất">&#8962; Trang chủ</a>
+      <h1><a href="https://phupd.github.io/aladdin-kenh/" class="homelink">Kênh Ads Aladdin · Phễu mua theo chương trình</a></h1>
       <div class="sub">Meta Ads · chỉ campaign phễu <b>mua</b> có chi tiêu trong khoảng xem · số tính lại theo skill <i>aladdin-meta-ads-reporting</i></div>
     </div>
     <div class="fresh" id="fresh">Đang tải…</div>
@@ -369,7 +373,11 @@ function render(){
   document.querySelectorAll('.dates .chip').forEach(function(c){c.classList.toggle('on',c.dataset.p===S.preset)});
   $('#dFrom').value=S.from;$('#dTo').value=S.to;
   if(S.brand==='ALL')renderOverview();else renderBrand();
-  location.replace('#'+[S.brand,encodeURIComponent(S.region),S.from,S.to].join('/'))}
+  // trạng thái mặc định (Tổng quan, 14 ngày) -> URL gốc không kèm #
+  var isHome=S.brand==='ALL'&&S.preset==='14'&&S.to===D.days[D.days.length-1];
+  if(isHome)history.replaceState(null,'',location.pathname);else location.replace('#'+[S.brand,encodeURIComponent(S.region),S.from,S.to].join('/'))}
+function goHome(e){if(!D)return;e.preventDefault();S.brand='ALL';S.region='Tổng';S.open={};S.metric='purchases';applyPreset('14');render();window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('#home,.homelink').forEach(function(a){a.addEventListener('click',goHome)});
 
 // ---------- khoảng thời gian ----------
 function applyPreset(p){var last=D.days[D.days.length-1],first=D.days[0];S.preset=p;
