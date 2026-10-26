@@ -272,7 +272,7 @@ function rangeLabel(){return dvnY(S.from)+' → '+dvnY(S.to)+' ('+(diffDays(S.fr
 
 function renderOverview(){
   var all=aggCampaigns('ALL',S.from,S.to), pr=prevRange(), tot=sum(all), ptot=pr?sum(aggCampaigns('ALL',pr.from,pr.to)):null;
-  var h='<div class="card"><h2>Tổng 4 thương hiệu · '+rangeLabel()+'</h2><p class="hint">'+tot.n+' campaign phễu mua có chi tiêu. Kỳ trước = '+(pr?dvn(pr.from)+'–'+dvn(pr.to):'ngoài dữ liệu')+'.</p>'+kpiHtml(tot,ptot)+'</div>';
+  var h='<div class="card"><h2>Tổng '+ORDER.filter(function(b){return D.brands[b]}).length+' thương hiệu · '+rangeLabel()+'</h2><p class="hint">'+tot.n+' campaign phễu mua có chi tiêu. Kỳ trước = '+(pr?dvn(pr.from)+'–'+dvn(pr.to):'ngoài dữ liệu')+'.</p>'+kpiHtml(tot,ptot)+'</div>';
   h+='<div class="brands">';
   ORDER.forEach(function(b){var l=all.filter(function(x){return x.brand===b}),s=sum(l),gs=groupBy(l,'program'),tb=topBuy(gs),ch=cheapest(gs);
     h+='<div class="card bcard" data-b="'+b+'"><div class="name">'+esc(D.brands[b])+'<span class="tag t-gray">'+gs.length+' chương trình</span></div>'+
