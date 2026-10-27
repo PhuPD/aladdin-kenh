@@ -143,6 +143,7 @@ footer{color:var(--ink3);font-size:12px;padding:8px 0 30px}
     <div class="row">
       <div class="tabs" id="brandTabs"></div>
       <div class="dates">
+        <span class="chip" data-p="y">Hôm qua</span>
         <span class="chip" data-p="7">7 ngày</span>
         <span class="chip" data-p="14">14 ngày</span>
         <span class="chip" data-p="30">30 ngày</span>
@@ -382,7 +383,8 @@ document.querySelectorAll('#home,.homelink').forEach(function(a){a.addEventListe
 
 // ---------- khoảng thời gian ----------
 function applyPreset(p){var last=D.days[D.days.length-1],first=D.days[0];S.preset=p;
-  if(p==='mtd'){S.to=last;S.from=last.slice(0,8)+'01'}
+  if(p==='y'){S.to=last;S.from=last}
+  else if(p==='mtd'){S.to=last;S.from=last.slice(0,8)+'01'}
   else if(p==='lm'){var d=new Date(last.slice(0,8)+'01T00:00:00Z');d.setUTCDate(0);S.to=d.toISOString().slice(0,10);S.from=S.to.slice(0,8)+'01'}
   else{S.to=last;S.from=addDays(last,-(+p-1))}
   if(S.from<first)S.from=first;if(S.to<first)S.to=first}
